@@ -62,6 +62,8 @@ To run the riscv-compliance test, run:
 $ make
 ```
 
+**FENCE.I will fail! However, this is not a problem for RV32I v2.1 specification**
+
 Subarch tests are used to test incomplete CPU implementation. Each test
 depends only on instructions tested by previous tests.
 To run subarch test, run:
