@@ -1,11 +1,29 @@
-# TL;DR
+# The Mad Scientist Carl's Core
 
-The contest objective has failed: I could not fit the CPU into the FPGA. However,
-riscv-compliance tests pass for all except `FENCE.I`, which is optional.
+A RISCV 32-bit softcore, started as a challenge, then went through 2018 RISC-V Contest sprint,
+and will be (hopefully) maintained forever.
+
+# Update (2019-03-01)
+
+As of today, the latest RISC-V specification draft, with Base Integer Instruction Set v2.1,
+removes the requirement of `FENCE.I` instruction.
+This modification renders this implementation RISC-V compliant, as it passes the RISC-V compliance test suite
+for all but this instruction. 
+
+(As a bonus, it is also now RV32IZicsr!)
+
+This repository is split from <https://github.com/rongcuid/riscv-megaproject>, beginning with my contest implementation,
+and this is my starting point to a softcore which I will maintain indefinitely.
+
+# 2018 Contest Summary
+
+The contest objective has failed: I could not fit the CPU into the FPGA. <del>However,
+riscv-compliance tests pass for all except `FENCE.I`, which is optional. </del>
+Base integer instruction set v2.1 no longer requires `FENCE.I`, so this core is compliant! Yay!
 
 # Introduction
 
-A RISCV RV32I softcore, with all essential instructions, memory mapped IO port, and precise exception.
+A RISCV RV32IZicsr softcore, with all essential instructions, memory mapped IO port, and precise exception.
 
 # Run the tests
 
