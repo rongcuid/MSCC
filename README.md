@@ -53,13 +53,7 @@ Clone the repo. Then in the repo, clone the riscv-compliance submodule:
 
 
 ```
-$ git submodule update --init -- 02-rv32i-pipeline-ice40/riscv-compliance
-```
-
-Then change to this subdirectory
-
-```
-$ cd 02-rv32i-pipeline-ice40
+$ git submodule update --init -- riscv-compliance
 ```
 
 To run the riscv-compliance test, run:
