@@ -115,8 +115,8 @@ Data Memory can access the ROM.
 
 # Compliance
 
-Since instruction memory is read only, _FENCE.I_ test cannot pass. All other tests
-of riscv-compliance pass.
+<del>Since instruction memory is read only, _FENCE.I_ test cannot pass. All other tests
+of riscv-compliance pass.</del>
 
 The compliance suite has following modifications:
 
