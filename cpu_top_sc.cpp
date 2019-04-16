@@ -9,9 +9,8 @@
 #include "Vcpu_top_core_top.h"
 #include "Vcpu_top_core_top.h"
 #include "Vcpu_top_core.h"
-#include "Vcpu_top_mmu.h"
 #include "Vcpu_top_regfile.h"
-#include "Vcpu_top_EBRAM_ROM.h"
+#include "Vcpu_top_bram_dpstrobe.h"
 #include "disasm.h"
 
 //////////////////////////////////////////////////
@@ -41,7 +40,7 @@ public:
     dut->clk(clk_tb);
     dut->resetb(resetb_tb);
     dut->gpio0(gpio0_tb);
-    ROM = dut->cpu_top->CT0->MMU0->rom0->ROM;
+    ROM = dut->cpu_top->RAM0->ram;
     FD_PC = &(dut->cpu_top->CT0->CPU0->FD_PC);
     FD_inst = &(dut->cpu_top->CT0->CPU0->im_do);
     // FD_disasm_opcode = 
@@ -92,6 +91,7 @@ public:
       auto words = (uint32_t*) buf;
       for (int i=0; i<size/4; ++i) {
         ROM[i] = words[i];
+	std::cerr << "(LOAD) " << std::setfill('0') << std::setw(8) << std::hex << words[i] << std::endl;
       }
       f.close();
       delete[] buf;
@@ -119,9 +119,8 @@ public:
       << std::hex 
       << ", FD_PC=0x" 
       << *FD_PC
-      //<< ", inst: "
-      //<< dut->cpu_top->CT0->CPU0->im_do
-      //<< ", ex:mepc:br:j:jr" 
+      << ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
+      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
       << std::endl;
   }
   void view_snapshot_hex()
@@ -132,6 +131,8 @@ public:
                 << *FD_PC
 		<< ", x1 = 0x" << std::hex
 		<< dut->cpu_top->CT0->CPU0->RF->data[1]
+      << ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
+      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
 		<< std::endl;
   }
 
@@ -144,6 +145,8 @@ public:
 		<< ", x1 = "
                 << std::dec
 		<< static_cast<int32_t>(dut->cpu_top->CT0->CPU0->RF->data[1])
+      << ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
+      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
 		<< std::endl;
   }
   void test_thread(void);
@@ -182,7 +185,16 @@ void cpu_top_tb_t::test0()
     std::cerr << "Program loading failed!" << std::endl;
   }
   else {
+    std::cerr << std::endl;
+      for (int i=0; i<10; ++i) {
+	std::cerr << "(DUMP1) " << std::setfill('0') << std::setw(8) << std::hex << ROM[i] << std::endl;
+      }
     reset();
+    std::cerr << std::endl;
+      for (int i=0; i<10; ++i) {
+	std::cerr << "(DUMP2) " << std::setfill('0') << std::setw(8) << std::hex << ROM[i] << std::endl;
+      }
+
     for (int i=0; i<12; ++i) {
       view_snapshot_pc();
       wait();
@@ -529,6 +541,7 @@ void cpu_top_tb_t::test_thread()
 
   test0();
   test1();
+  /*
   test2();
   test3();
   test4();
@@ -543,6 +556,7 @@ void cpu_top_tb_t::test_thread()
   test13();
   test14();
   test15();
+  */
 
   sc_stop();
 }

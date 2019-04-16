@@ -13,7 +13,7 @@ run_compliance: tb_out/cpu_run
 
 #COMPLIANCE_TEST=I-ENDIANESS-01
 #COMPLIANCE_TEST=I-ADD-01
-#COMPLIANCE_TEST=I-ADDI-01
+COMPLIANCE_TEST=I-ADDI-01
 #COMPLIANCE_TEST=I-ANDI-01
 #COMPLIANCE_TEST=I-AUIPC-01
 #COMPLIANCE_TEST=I-BEQ-01
@@ -30,7 +30,7 @@ run_compliance: tb_out/cpu_run
 #COMPLIANCE_TEST=I-CSRRWI-01
 #COMPLIANCE_TEST=I-DELAY_SLOTS-01
 #COMPLIANCE_TEST=I-EBREAK-01
-COMPLIANCE_TEST=I-ECALL-01
+#COMPLIANCE_TEST=I-ECALL-01
 #COMPLIANCE_TEST=I-FENCE.I-01# Fails
 #COMPLIANCE_TEST=I-IO
 #COMPLIANCE_TEST=I-JAL-01
@@ -65,14 +65,14 @@ COMPLIANCE_TEST=I-ECALL-01
 #COMPLIANCE_TEST=I-XOR-01
 #COMPLIANCE_TEST=I-XORI-01
 
-run_compliance_quick: compile_cpu_run compile_compliance_quick
+run_compliance_quick: tb_out/cpu_run compile_compliance_quick
 	./tb_out/cpu_run tb_out/$(COMPLIANCE_TEST).elf | tee tb_out/run.out 
 	grep '(DD)' tb_out/run.out | cut -d' ' -f 2 > tb_out/result.log
 	diff tb_out/result.log riscv-compliance/riscv-test-suite/rv32i/references/$(COMPLIANCE_TEST).reference_output
 
 compile_compliance_quick:
-	$(CC) -march=RV32I -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -Iriscv-compliance/riscv-test-env/ -Iriscv-compliance/riscv-test-env/msc/ -Iriscv-compliance/riscv-target/msc-02/ -Triscv-compliance/riscv-test-env/msc/link.ld riscv-compliance/riscv-test-suite/rv32i/src/$(COMPLIANCE_TEST).S -E > tb_out/$(COMPLIANCE_TEST)-expand.S
-	$(CC) -Wl,--build-id=none -march=RV32I -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -Iriscv-compliance/riscv-test-env/ -Iriscv-compliance/riscv-test-env/msc/ -Iriscv-compliance/riscv-target/msc-02/ -Triscv-compliance/riscv-test-env/msc/link.ld riscv-compliance/riscv-test-suite/rv32i/src/$(COMPLIANCE_TEST).S -o tb_out/$(COMPLIANCE_TEST).elf
+	$(CC) -march=rv32i -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -Iriscv-compliance/riscv-test-env/ -Iriscv-compliance/riscv-test-env/msc/ -Iriscv-compliance/riscv-target/msc-02/ -Triscv-compliance/riscv-test-env/msc/link.ld riscv-compliance/riscv-test-suite/rv32i/src/$(COMPLIANCE_TEST).S -E > tb_out/$(COMPLIANCE_TEST)-expand.S
+	$(CC) -Wl,--build-id=none -march=rv32i -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -Iriscv-compliance/riscv-test-env/ -Iriscv-compliance/riscv-test-env/msc/ -Iriscv-compliance/riscv-target/msc-02/ -Triscv-compliance/riscv-test-env/msc/link.ld riscv-compliance/riscv-test-suite/rv32i/src/$(COMPLIANCE_TEST).S -o tb_out/$(COMPLIANCE_TEST).elf
 	$(OBJCOPY) -O binary tb_out/$(COMPLIANCE_TEST).elf tb_out/$(COMPLIANCE_TEST).elf.bin
 
 compile_regfile_tb: regfile.v regfile_sc.cpp
@@ -92,7 +92,7 @@ run_mmu_tb: compile_mmu_tb
 	./tb_out/mmu_tb
 
 tb_out/%.bin: test/%.S
-	$(AS) -march=RV32I $^ -o $(@:.bin=.elf)
+	$(AS) -march=rv32i $^ -o $(@:.bin=.elf)
 	$(OBJCOPY) -O binary $(@:.bin=.elf) $@
 #	riscv32-unknown-elf-as $^ -o $(@:.bin=.elf)
 #	riscv32-unknown-elf-objcopy -O binary $(@:.bin=.elf) $@
@@ -115,13 +115,13 @@ TEST_PROGRAMS+=tb_out/13-csr.bin
 TEST_PROGRAMS+=tb_out/14-mem.bin
 TEST_PROGRAMS+=tb_out/15-exception.bin
 
-compile_cpu_top_tb: cpu_top.v cpu_top_sc.cpp core_top.v EBRAM_ROM.v SPRAM_16Kx16.v mmu.v regfile.v core/csr_ehu.v core/instruction_decoder.v core.v io_port.v
+compile_cpu_top_tb: cpu_top.v cpu_top_sc.cpp core_top.v EBRAM_ROM.v mmu.v regfile.v core/csr_ehu.v core/instruction_decoder.v core.v io_port.v
 	echo "(MM) Compiling CPU Top testbench"
 	mkdir -p tb_out
 	verilator -Wall --top-module cpu_top --sc $^ --exe -o ../tb_out/cpu_top_tb
 	make -C obj_dir -f Vcpu_top.mk
 
-tb_out/cpu_run: cpu_run_sc.cpp cpu_top.v core_top.v SPRAM_16Kx16.v EBRAM_ROM.v mmu.v regfile.v core/csr_ehu.v core/instruction_decoder.v core.v timer.v
+tb_out/cpu_run: cpu_run_sc.cpp cpu_top.v core_top.v mmu.v regfile.v core/csr_ehu.v core/instruction_decoder.v core.v timer.v bram_dpstrobe.v
 	echo "(MM) Compiling CPU Simulator"
 	mkdir -p tb_out
 	verilator -Wall --sc $^ --top-module cpu_top --exe -o ../tb_out/cpu_run
