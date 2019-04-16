@@ -149,7 +149,7 @@ module mmu(
 	 chosen_device_tmp = DEV_RAM;
 	 ram_addr = ram_addr_temp[2+:WORD_DEPTH_LOG-2];
 	 ram_wdata = dm_di_shift;
-	 ram_wstrb = dm_be;
+	 ram_wstrb = dm_we ? dm_be : 4'b0;
       end
       else if (dm_addr[31:8] == 24'h800000) begin
 	 // 0x80000000 - 0x800000FF

@@ -10,21 +10,25 @@ test_failed:
 	j test_failed
 
 init_mem:
-	li x2, 0x10000000
-	li x1, 0x10000020
-clear_mem:	
-	sw x0, 0(x1)
-	addi x1, x1, -4
-	bge x1, x2, clear_mem
+	li x2, 0x200
+	li x1, 0x220
 	
 test_mem:
 test_write_0:
 	sw x0, 0(x2)
 	lw x1, 0(x2)
 	bnez x1, test_failed
+	lw x1, 0(x2)
+	bnez x1, test_failed
 
 test_halfword:
+	lh x1, 0(x2)
+	bnez x1, test_failed
 	li x3, 0xBEE
+	sh x3, 0(x2)
+	lh x1, 0(x2)
+	bne x1, x3, test_failed
+	lw x1, 0(x2)
 	sh x3, 4(x2)
 	lh x1, 4(x2)
 	bne x1, x3, test_failed
@@ -70,3 +74,8 @@ test_instruction_memory:
         bne x1, x3, test_failed
 
 	j main
+
+test_A:
+	.fill 4, 4, -1
+test_B:
+	.fill 4, 4, -1

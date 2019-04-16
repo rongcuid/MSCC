@@ -91,7 +91,7 @@ public:
       auto words = (uint32_t*) buf;
       for (int i=0; i<size/4; ++i) {
         ROM[i] = words[i];
-	std::cerr << "(LOAD) " << std::setfill('0') << std::setw(8) << std::hex << words[i] << std::endl;
+	//std::cerr << "(LOAD) " << std::setfill('0') << std::setw(8) << std::hex << words[i] << std::endl;
       }
       f.close();
       delete[] buf;
@@ -119,8 +119,8 @@ public:
       << std::hex 
       << ", FD_PC=0x" 
       << *FD_PC
-      << ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
-      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
+      //<< ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
+      //<< ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
       << std::endl;
   }
   void view_snapshot_hex()
@@ -131,8 +131,11 @@ public:
                 << *FD_PC
 		<< ", x1 = 0x" << std::hex
 		<< dut->cpu_top->CT0->CPU0->RF->data[1]
-      << ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
-      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
+      //<< ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
+      //<< ", ram_addr: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->addrb
+      //<< ", ram_wdata: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->dinb
+      //<< ", dm_do: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->dm_do
+      //<< ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
 		<< std::endl;
   }
 
@@ -145,8 +148,8 @@ public:
 		<< ", x1 = "
                 << std::dec
 		<< static_cast<int32_t>(dut->cpu_top->CT0->CPU0->RF->data[1])
-      << ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
-      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
+      //<< ", inst: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->CT0->CPU0->im_do
+      //<< ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
 		<< std::endl;
   }
   void test_thread(void);
@@ -185,15 +188,7 @@ void cpu_top_tb_t::test0()
     std::cerr << "Program loading failed!" << std::endl;
   }
   else {
-    std::cerr << std::endl;
-      for (int i=0; i<10; ++i) {
-	std::cerr << "(DUMP1) " << std::setfill('0') << std::setw(8) << std::hex << ROM[i] << std::endl;
-      }
     reset();
-    std::cerr << std::endl;
-      for (int i=0; i<10; ++i) {
-	std::cerr << "(DUMP2) " << std::setfill('0') << std::setw(8) << std::hex << ROM[i] << std::endl;
-      }
 
     for (int i=0; i<12; ++i) {
       view_snapshot_pc();
@@ -541,7 +536,6 @@ void cpu_top_tb_t::test_thread()
 
   test0();
   test1();
-  /*
   test2();
   test3();
   test4();
@@ -556,7 +550,6 @@ void cpu_top_tb_t::test_thread()
   test13();
   test14();
   test15();
-  */
 
   sc_stop();
 }

@@ -33,7 +33,7 @@ module core
    input wire clk, resetb;
 
    // Interface to MMU
-   input wire [31:0] im_do/*verilator public*/, dm_do;
+   input wire [31:0] im_do/*verilator public*/, dm_do /*verilator public*/;
    output 	     dm_we, dm_is_signed;
    output [31:0]     im_addr, dm_addr, dm_di;
    output [3:0]      dm_be;

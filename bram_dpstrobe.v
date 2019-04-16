@@ -17,9 +17,9 @@ module bram_dpstrobe(
   parameter INIT_FILE = "";                       // Specify name/location of RAM initialization file if using one (leave blank if not)
 
   input wire [clogb2(RAM_DEPTH-1)-1:0] addra;  // Port A address bus, width determined from RAM_DEPTH
-  input wire [clogb2(RAM_DEPTH-1)-1:0] addrb;  // Port B address bus, width determined from RAM_DEPTH
+  input wire [clogb2(RAM_DEPTH-1)-1:0] addrb /*verilator public*/;  // Port B address bus, width determined from RAM_DEPTH
   input wire [(NB_COL*COL_WIDTH)-1:0] dina;  // Port A RAM input data
-  input wire [(NB_COL*COL_WIDTH)-1:0] dinb;  // Port B RAM input data
+  input wire [(NB_COL*COL_WIDTH)-1:0] dinb/*verilator public*/;  // Port B RAM input data
   input wire clk;                           // Clock
   input wire [NB_COL-1:0] wea;               // Port A write enable
   input wire [NB_COL-1:0] web;		  // Port B write enable
