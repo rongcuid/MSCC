@@ -101,6 +101,12 @@ class cpu_run_t : public sc_module
 				<< *FD_PC
 				<< ", x1 = 0x" << std::hex
 				<< dut->cpu_top->CT0->CPU0->RF->data[1]
+				<< ", x17 = 0x" << std::hex
+				<< dut->cpu_top->CT0->CPU0->RF->data[17]
+      << ", ram_addr: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->addrb * 4
+      << ", ram_wdata: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->dinb
+      << ", ram_wstrb: " << std::hex << (unsigned int) dut->cpu_top->RAM0->web
+      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
 				<< std::endl;
 		}
 
@@ -120,14 +126,14 @@ class cpu_run_t : public sc_module
 
 		bool load_program(const std::string& path)
 		{
-			for (int i=0; i<512; ++i) {
+			for (int i=0; i<1024; ++i) {
 				ROM[i] = 0;
 			}
 			ifstream f(path, std::ios::binary);
 			if (f.is_open()) {
 				f.seekg(0, f.end);
 				int size = f.tellg();
-				if (size == 0 || size > 2048) {
+				if (size == 0 || size > 4096) {
 					return false;
 				}
 				if (size % 4 != 0) {
@@ -212,14 +218,19 @@ std::string reverse(const sc_bv<256>& bv)
 void cpu_run_t::scan_memory_for_base_address()
 {
 	bool tail = false;
+	std::cout << "(II) Scanning Memory" << std::endl;
 	for (int i=1023; i>=0; --i) {
 		uint32_t word = get_memory_word(i);
 		if (!tail) {
-			if (word == 0xDEADDEAD) tail = true;
+			if (word == 0xDEADDEAD) { 
+				tail = true;
+				std::cout << "(II) Tail at " << i << std::endl;
+			}
 		}
 		else {
 			if (word != 0xFFFFFFFF) {
 				test_result_base_addr = (i+1) << 2;
+				std::cout << "(II) Base at " << i << std::endl;
 				return;
 			}
 		}

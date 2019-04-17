@@ -22,7 +22,7 @@ module bram_dpstrobe(
   input wire [(NB_COL*COL_WIDTH)-1:0] dinb/*verilator public*/;  // Port B RAM input data
   input wire clk;                           // Clock
   input wire [NB_COL-1:0] wea;               // Port A write enable
-  input wire [NB_COL-1:0] web;		  // Port B write enable
+  input wire [NB_COL-1:0] web /*verilator public*/;		  // Port B write enable
   output wire [(NB_COL*COL_WIDTH)-1:0] douta; // Port A RAM output data
   output wire [(NB_COL*COL_WIDTH)-1:0] doutb; // Port B RAM output data
 

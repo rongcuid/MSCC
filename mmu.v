@@ -136,7 +136,7 @@ module mmu(
    always @ (*) begin : DM_ADDR_MAP
       ram_addr_temp = dm_addr;
       io_addr_temp = dm_addr - 32'h80000000;
-      io_addr_tmp = io_addr_temp[7:0];;
+      io_addr_tmp = io_addr_temp[7:0];
       io_en_tmp = 1'b0;
       io_we_tmp = 1'b0;
       io_data_write_tmp = 32'bX;
