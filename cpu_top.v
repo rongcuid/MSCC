@@ -5,8 +5,7 @@ module cpu_top
 (
 	input wire clk,
 	input wire resetb,
-	output wire [7:0] gpio0,
-	output wire [7:0] dir0
+	inout wire [7:0] gpio0
 );
 
 wire [7:0] io_addr;
@@ -50,7 +49,7 @@ io_port IO0
 	.io_addr(io_addr), .io_en(io_en), .io_we(io_we),
 	.io_data_read(io_data_read), .io_data_write(io_data_write),
 	.irq_mtimecmp(irq_mtimecmp),
-	.gpio0(gpio0), .dir0(dir0)
+	.io_gpio0(gpio0)
 );
 
 

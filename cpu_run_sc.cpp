@@ -28,7 +28,6 @@ class cpu_run_t : public sc_module
 		sc_in<bool> clk_tb;
 		sc_signal<bool> resetb_tb;
 		sc_signal<uint32_t> gpio0_tb;
-		sc_signal<uint32_t> dir0_tb;
 
 		bool test_passes, test_fails, test_halt;
 		uint32_t test_result_base_addr;
@@ -40,7 +39,6 @@ class cpu_run_t : public sc_module
 			  , clk_tb("clk_tb")
 			  , resetb_tb("resetb_tb")
 			  , gpio0_tb("gpio0_tb")
-			  , dir0_tb("dir0_tb")
 	{
 		SC_CTHREAD(test_thread, clk_tb.pos());
 
@@ -50,7 +48,6 @@ class cpu_run_t : public sc_module
 		dut->clk(clk_tb);
 		dut->resetb(resetb_tb);
 		dut->gpio0(gpio0_tb);
-		dut->dir0(dir0_tb);
 		//ROM = dut->cpu_top->CT0->MMU0->rom0->ROM;
 		ROM = dut->cpu_top->RAM0->ram;
 		FD_PC = &(dut->cpu_top->CT0->CPU0->FD_PC);
