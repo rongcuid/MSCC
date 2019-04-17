@@ -101,8 +101,8 @@ class cpu_run_t : public sc_module
 				<< *FD_PC
 				<< ", x1 = 0x" << std::hex
 				<< dut->cpu_top->CT0->CPU0->RF->data[1]
-				<< ", x17 = 0x" << std::hex
-				<< dut->cpu_top->CT0->CPU0->RF->data[17]
+				<< ", a5 = 0x" << std::hex
+				<< dut->cpu_top->CT0->CPU0->RF->data[15]
       << ", ram_addr: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->addrb * 4
       << ", ram_wdata: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->dinb
       << ", ram_wstrb: " << std::hex << (unsigned int) dut->cpu_top->RAM0->web
