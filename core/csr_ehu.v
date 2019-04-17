@@ -263,7 +263,7 @@ module csr_ehu
            end // case: default
          endcase // case (src_dst)
          // Magic numbers are from RISC-V Spec Vol 2
-         if (XB_exception) begin
+         if (~XB_bubble & XB_exception) begin
             // NOTE: This confusing statement is caused by the
             // internal pipeline of the CSR. CSR has one stage
             // pipeline, so even though the exception is supposed to
@@ -279,7 +279,7 @@ module csr_ehu
                mtval <= 32'b0;
             end
          end
-         else if (FD_exception) begin
+         else if (~XB_bubble & FD_exception) begin
             mepc <= XB_pc[31:2];
             if (XB_FD_exception_instruction_misaligned) begin
                mcause <= 32'd0;

@@ -13,6 +13,7 @@
 #include "Vcpu_top_core.h"
 #include "Vcpu_top_regfile.h"
 #include "Vcpu_top_bram_dpstrobe.h"
+#include "Vcpu_top_timer.h"
 
 #include "disasm.h"
 
@@ -99,14 +100,12 @@ class cpu_run_t : public sc_module
 				<< ", FD_PC=0x" 
 				<< std::hex 
 				<< *FD_PC
-				<< ", x1 = 0x" << std::hex
-				<< dut->cpu_top->CT0->CPU0->RF->data[1]
-				<< ", a5 = 0x" << std::hex
-				<< dut->cpu_top->CT0->CPU0->RF->data[15]
-      << ", ram_addr: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->addrb * 4
-      << ", ram_wdata: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->dinb
-      << ", ram_wstrb: " << std::hex << (unsigned int) dut->cpu_top->RAM0->web
-      << ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
+				<< ", sp = 0x" << std::hex << dut->cpu_top->CT0->CPU0->RF->data[2]
+				<< ", a5 = 0x" << std::hex << dut->cpu_top->CT0->CPU0->RF->data[15]
+      //<< ", ram_addr: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->addrb * 4
+      //<< ", ram_wdata: " << std::hex << std::setfill('0') << std::setw(8) << dut->cpu_top->RAM0->dinb
+      //<< ", ram_wstrb: " << std::hex << (unsigned int) dut->cpu_top->RAM0->web
+      //<< ", dm_be: " << std::hex << (unsigned int) dut->cpu_top->CT0->CPU0->dm_be
 				<< std::endl;
 		}
 
@@ -224,13 +223,13 @@ void cpu_run_t::scan_memory_for_base_address()
 		if (!tail) {
 			if (word == 0xDEADDEAD) { 
 				tail = true;
-				std::cout << "(II) Tail at " << i << std::endl;
+				std::cout << "(II) Tail at 0x" << std::hex << i << std::endl;
 			}
 		}
 		else {
 			if (word != 0xFFFFFFFF) {
 				test_result_base_addr = (i+1) << 2;
-				std::cout << "(II) Base at " << i << std::endl;
+				std::cout << "(II) Base at 0x" << std::hex << i << std::endl;
 				return;
 			}
 		}

@@ -19,7 +19,7 @@
  - S2: Execute/Writeback (XB)
  - Early branch in FD
  */
-module core
+module core 
   (
    // Top
    clk, resetb,
@@ -51,7 +51,7 @@ module core
    wire 	     FD_alu_is_signed;
    wire [31:0] 	     FD_aluop1_sel, FD_aluop2_sel, FD_alu_op;
    wire 	     FD_pc_update, FD_pc_mepc;
-   wire 	     FD_regwrite;
+   wire 	     FD_regwrite /*verilator public*/;
    wire 	     FD_jump/* verilator public */, FD_link, FD_jr, FD_br ;
    wire [3:0] 	     FD_dm_be;
    wire 	     FD_dm_we;
@@ -87,7 +87,7 @@ module core
    /* verilator lint_off UNUSED */   
    reg [4:0]   XB_a_rs1;
    /* verilator lint_on UNUSED */   
-   reg 	       XB_regwrite;
+   reg 	       XB_regwrite /*verilator public*/;
    reg 	       XB_memtoreg;
    reg 	       XB_alu_is_signed;
    reg [31:0]  XB_aluop1_sel, XB_aluop2_sel, XB_alu_op;
@@ -97,10 +97,10 @@ module core
    reg 	       XB_FD_exception_instruction_misaligned;
    reg 	       XB_FD_exception_load_misaligned;
    reg 	       XB_FD_exception_store_misaligned;
-   reg [31:0]  XB_PC;
-   wire        FD_bubble;
+   reg [31:0]  XB_PC /*verilator public*/;
+   wire        FD_bubble/*verilator public*/;
    reg FD_reset;
-   reg 	       XB_bubble;
+   reg 	       XB_bubble/*verilator public*/;
 
    // XB ALU
    reg [31:0]  XB_aluop1, XB_aluop2, XB_aluout;
@@ -108,7 +108,7 @@ module core
    // CSR Register file and Exception Handling Unit
    wire [31:0] XB_csr_out;
    wire        XB_csr_read, XB_csr_write, XB_csr_set, XB_csr_clear, XB_csr_imm;
-   wire [31:0] CSR_mepc, CSR_mtvec;
+   wire [31:0] CSR_mepc /*verilator public*/, CSR_mtvec;
    reg 	       XB_csr_writeback;
 
    assign dm_be = FD_bubble ? 4'b0 : FD_dm_be;
