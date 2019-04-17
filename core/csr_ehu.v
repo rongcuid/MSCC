@@ -271,7 +271,7 @@ module csr_ehu
             // Note that timer interrupt has higher priority
 	    mepc <= XB_pc[31:2];
             if (initiate_irq_mtimecmp) begin
-	       mcause <= {1'b0, 31'd7};
+	       mcause <= {1'b1, 31'd7};
 	       mtval <= 32'b0;
             end
             else if (XB_exception_illegal_instruction) begin
