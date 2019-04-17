@@ -3,27 +3,50 @@
 A RISCV 32-bit softcore, started as a challenge, then went through 2018 RISC-V Contest sprint,
 and will be (hopefully) maintained forever.
 
-# Update (2019-03-01)
+# Update (2019-04-16)
 
-As of today, the latest RISC-V specification draft, with Base Integer Instruction Set v2.1,
-removes the requirement of `FENCE.I` instruction.
-This modification renders this implementation RISC-V compliant, as it passes the RISC-V compliance test suite
-for all but this instruction. 
+Today, I release the v0.1 version, which fully complies with the RV32I subset, v2.0 _and_ v2.1.
+Yes, that pesky `FENCE.I` included!
 
-(As a bonus, it is also now RV32IZicsr!)
+This update, and subsequent updates carrying the v0.x tags, are intended for a reference core for another project.
+After the project finishes, the v0.x version will reach its end of life.
+I also use this as a bootloader core to boot up another, more powerful CPU, by streaming programs from UART port.
 
-This repository is split from <https://github.com/rongcuid/riscv-megaproject>, beginning with my contest implementation,
-and this is my starting point to a softcore which I will maintain indefinitely.
+The major change is splitting memory banks from mmu, and instead allow them to exist on the same level as
+core_top and io_port (see <cpu_top.v>).
+
+The memory bank interface contains the following ports:
+
+```
+ram_iaddr  : instruction port address
+ram_irdata : instruction read data
+ram_addr   : data port address
+ram_wstrb  : data write strobe, each bit enables one column of 8-bit
+ram_wdata  : data port write data
+```
+
+The memory bank itself is implemented using a strobed, one-clock two-port block ram with no output register.
+It has 32-bit word width and 8-bit strobe.
+
+Currently, the CPU implements a 16Kx32 memory, and it is not easy to change due to bad code style.
+I do not intend to maintain this version, and I will definitely rewrite the entire thing.
+
+Also, now _instruction memory is read-write_, as the dedicated ROM is removed.
+The entire main memory is mapped on `0x00000000-0x7FFFFFFFF`, while IO mapping is still on `0x80000000-0x800000FF`.
+
+Due to the change, the compliance test suite no longer needs to copy the `.data` section, 
+and only needs to zero `.bss`.
 
 # 2018 Contest Summary
 
 The contest objective has failed: I could not fit the CPU into the FPGA. <del>However,
 riscv-compliance tests pass for all except `FENCE.I`, which is optional. </del>
-Base integer instruction set v2.1 no longer requires `FENCE.I`, so this core is compliant! Yay!
+<del>Base integer instruction set v2.1 no longer requires `FENCE.I`, so this core is compliant! Yay!</del>
+This update makes both version compliant! Which means, `RV32I` v2.0, or `RV32Izicsr_zifenci` v2.1.
 
 # Introduction
 
-A RISCV RV32IZicsr softcore, with all essential instructions, memory mapped IO port, and precise exception.
+A RISCV RV32Izicsr_zifencei softcore, with all essential instructions, memory mapped IO port, and precise exception.
 
 # Run the tests
 
@@ -103,9 +126,7 @@ Instruction/Memory Address Misaligned Exception, ECALL, and EBREAK
 
 # Memory
 
-- Instruction ROM on 0x00000000-0x00000FFF
-
-- Data Memory on 0x10000000-0x7FFFFFFF
+- Main Memory on 0x00000000-0x7FFFFFFF
 
 - IO on 0x80000000-0x800000FF
 
@@ -121,7 +142,7 @@ of riscv-compliance pass.</del>
 The compliance suite has following modifications:
 
 1. Linker script is modified to use specified address range
-2. EXTRA\_INIT is defined to load `.data` and `.bss` region
+2. EXTRA\_INIT is defined to zero `.bss` region
 3. At the end of init, a command is sent through 0x80000000 
   to prompt the test bench to scan memory
 4. `.data` region begins with word 0xdeadc0de

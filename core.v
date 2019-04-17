@@ -33,7 +33,7 @@ module core
    input wire clk, resetb;
 
    // Interface to MMU
-   input wire [31:0] im_do/*verilator public*/, dm_do;
+   input wire [31:0] im_do/*verilator public*/, dm_do /*verilator public*/;
    output 	     dm_we, dm_is_signed;
    output [31:0]     im_addr, dm_addr, dm_di;
    output [3:0]      dm_be;
@@ -41,7 +41,7 @@ module core
    wire 	     dm_we, dm_is_signed;
    wire [31:0] 	     dm_addr, dm_di;
    reg [31:0] 	     im_addr;
-   wire [3:0] 	     dm_be;
+   wire [3:0] 	     dm_be /*verilator public*/;
    
    // Timer interrupt
    input wire irq_mtimecmp;
@@ -52,7 +52,7 @@ module core
    wire [31:0] 	     FD_aluop1_sel, FD_aluop2_sel, FD_alu_op;
    wire 	     FD_pc_update, FD_pc_mepc;
    wire 	     FD_regwrite;
-   wire 	     FD_jump, FD_link, FD_jr, FD_br;
+   wire 	     FD_jump/* verilator public */, FD_link, FD_jr, FD_br ;
    wire [3:0] 	     FD_dm_be;
    wire 	     FD_dm_we;
    wire 	     FD_dm_is_signed;
