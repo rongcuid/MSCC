@@ -4,18 +4,12 @@
 
  Memory Mapping:
 
- - 0x00000000 - 0x00000FFF ROM instruction memory
- - 0x10000000 - 0x7FFFFFFF Main memory
+ - 0x00000000 - 0x7FFFFFFF Main memory for both instruction and data
  - 0x80000000 - 0x800000FF I/O ports
 
  Exceptions are not generated from MMU
 
- Memory Bank Configuration: 4 interleaving banks of 8-bit wide SSP-BRAM
-
- Limitations: 
- - Data memory port cannot access instruction memory
- - Instruction memory port can only access instruction memory
- - Instruction memory is ROM
+ Memory Bank interface: strobed, write-through BRAM with 8-bit column and 4-byte word
 
  */
 
@@ -23,12 +17,9 @@ module mmu(
            clk, resetb, dm_we,
            im_addr, im_do, dm_addr, dm_di, dm_do,
            dm_be, is_signed,
-	   // To BRAM
+	   // To Main memory
 	   ram_iaddr, ram_irdata, 
 	   ram_addr, ram_wstrb, ram_rdata, ram_wdata,
-           // To Instruction Memory
-           // im_addr_out, im_data,
-           // im_addr_out_2, im_data_2,
            // TO IO
            io_addr, io_en, io_we, io_data_read, io_data_write
            );
@@ -106,8 +97,6 @@ module mmu(
 	 chosen_device_p <= 3'bX;
 	 is_signed_p <= 1'bX;
 	 dm_be_p <= 4'b0;
-	 // First instruction is initialized as NOP
-	 //im_do <= 32'b0000_0000_0000_00000_000_00000_0010011;
 	 io_data_write <= 32'bX;
 	 //im_data_2_p <= 32'bX;
 	 io_en <= 1'b0;
@@ -119,8 +108,6 @@ module mmu(
 	 dm_be_p <= dm_be;
 	 chosen_device_p <= chosen_device_tmp[2:0];
 	 is_signed_p <= is_signed;
-	 //im_do <= im_data;
-	 //im_data_2_p <= im_data_2;
 	 io_data_write <= io_data_write_tmp;
 	 io_en <= io_en_tmp;
 	 io_we <= io_we_tmp;
@@ -153,7 +140,6 @@ module mmu(
       end
       else if (dm_addr[31:8] == 24'h800000) begin
 	 // 0x80000000 - 0x800000FF
-	 // io_addr_tmp = io_addr_temp[7:0];
 	 io_en_tmp = 1'b1;
 	 io_we_tmp = dm_we;
 	 io_data_write_tmp = dm_di_shift;
