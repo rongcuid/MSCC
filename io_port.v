@@ -10,7 +10,9 @@ module io_port
 	input wire [31:0]  io_data_write/*verilator public*/,
 	output reg [31:0] io_data_read,
 		output wire 	      irq_mtimecmp,
-		inout wire [7:0]   io_gpio0
+		output reg [7:0] output0,
+		input wire [7:0] input0,
+		output reg [7:0] dir0
 	);
 
 	wire 	      mtime_we;
@@ -21,43 +23,37 @@ module io_port
 	//assign io_data_read = io_addr[7:4] == 4'b0001 ? mtime_dout : 32'bX;
 	integer i;
 	always @ (*) begin
+		io_data_read = 32'bX;
 		case (io_addr)
 			8'h00: begin
 				for (i=0; i<8; i=i+1) begin
-					io_data_read[i] = dir0[i] ? gpio0[i] : input0[i];
+					io_data_read[i] = dir0[i] ? output0[i] : input0_p[i];
 				end
+			end
+			8'h01: begin
+				io_data_read[15:8] = dir0;
 			end
 			8'h10: io_data_read = mtime_dout;
 			default: begin
-				io_data_read = 32'bX;
 			end
 		endcase
 	end
 
-	assign io_gpio0[0] = dir0[0] ? gpio0[0] : 1'bz;
-	assign io_gpio0[1] = dir0[1] ? gpio0[1] : 1'bz;
-	assign io_gpio0[2] = dir0[2] ? gpio0[2] : 1'bz;
-	assign io_gpio0[3] = dir0[3] ? gpio0[3] : 1'bz;
-	assign io_gpio0[4] = dir0[4] ? gpio0[4] : 1'bz;
-	assign io_gpio0[5] = dir0[5] ? gpio0[5] : 1'bz;
-	assign io_gpio0[6] = dir0[6] ? gpio0[6] : 1'bz;
-	assign io_gpio0[7] = dir0[7] ? gpio0[7] : 1'bz;
-
 	// GPIO0 is at 0x80000000, the same address as testbench commands.
 	// DIR0 is at 0x80000001
-	reg [7:0]   dir0, gpio0, input0;
+	reg [7:0]   input0_p;
 	always @ (posedge clk) begin : GPIO0
 		if (!resetb) begin
-			input0 <= 8'b0;
-			gpio0 <= 8'b0;
+			input0_p <= 8'b0;
+			output0 <= 8'b0;
 			dir0 <= 8'b0;
 		end
 		else if (clk) begin
-			input0 <= io_gpio0;
+			input0_p <= input0;
 			if (io_we) begin
 				case (io_addr[7:0])
-					8'b0: gpio0 <= io_data_write[7:0];
-					8'b1: dir0 <= io_data_write[7:0];
+					8'b0: output0 <= io_data_write[7:0];
+					8'b1: dir0 <= io_data_write[15:8];
 					default: begin
 					end
 				endcase

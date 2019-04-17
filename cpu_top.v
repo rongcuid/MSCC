@@ -23,6 +23,16 @@ wire [31:0] ram_rdata;
 wire [31:0] ram_wdata;
 /* verilator lint_on UNUSED */
 
+wire [7:0] input0, output0, dir0;
+
+generate
+	genvar i;
+	for (i=0; i<8; i=i+1) begin
+		assign gpio0[i] = dir0[i] ? output0[i] : 1'bZ;
+		assign input0[i] = gpio0[i];
+	end
+endgenerate
+
 bram_dpstrobe RAM0
 (
 	.clk(clk), 
@@ -49,7 +59,7 @@ io_port IO0
 	.io_addr(io_addr), .io_en(io_en), .io_we(io_we),
 	.io_data_read(io_data_read), .io_data_write(io_data_write),
 	.irq_mtimecmp(irq_mtimecmp),
-	.io_gpio0(gpio0)
+	.output0(output0), .input0(input0), .dir0(dir0)
 );
 
 
