@@ -85,8 +85,6 @@ To run the riscv-compliance test, run:
 $ make
 ```
 
-**FENCE.I will fail! However, this is not a problem for RV32I v2.1 specification**
-
 Subarch tests are used to test incomplete CPU implementation. Each test
 depends only on instructions tested by previous tests.
 To run subarch test, run:
@@ -129,10 +127,6 @@ Instruction/Memory Address Misaligned Exception, ECALL, and EBREAK
 - Main Memory on 0x00000000-0x7FFFFFFF
 
 - IO on 0x80000000-0x800000FF
-
-Instruction memory is read only, thus _FENCE.I test always fails_.
-
-Data Memory can access the ROM. 
 
 # Compliance
 
