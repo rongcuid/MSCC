@@ -28,11 +28,13 @@ public:
   sc_in<bool> clk_tb;
   sc_signal<bool> resetb_tb;
   sc_signal<uint32_t> gpio0_tb;
+  sc_signal<uint32_t> dir0_tb;
 
   SC_CTOR(cpu_top_tb_t)
     : clk_tb("clk_tb")
     , resetb_tb("resetb_tb")
     , gpio0_tb("gpio0_tb")
+	, dir0_tb("dir0_tb")
   {
     SC_CTHREAD(test_thread, clk_tb.pos());
 
@@ -40,6 +42,7 @@ public:
     dut->clk(clk_tb);
     dut->resetb(resetb_tb);
     dut->gpio0(gpio0_tb);
+    dut->dir0(dir0_tb);
     ROM = dut->cpu_top->RAM0->ram;
     FD_PC = &(dut->cpu_top->CT0->CPU0->FD_PC);
     FD_inst = &(dut->cpu_top->CT0->CPU0->im_do);
