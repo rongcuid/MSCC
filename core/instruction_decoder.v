@@ -25,8 +25,8 @@ module instruction_decoder
    exception_ecall,
    exception_ebreak
    );
-`include "core/aluop.vh"
-`include "core/opcode.vh"
+`include "aluop.vh"
+`include "opcode.vh"
    // The instruction to be decoded
    input wire FD_reset;
    input wire [31:0] inst;

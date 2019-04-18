@@ -28,7 +28,7 @@ module csr_ehu
    nextPC, XB_pc, 
    data_out, csr_mepc, csr_mtvec
    );
-`include "core/csrlist.vh"
+`include "csrlist.vh"
    input wire clk, resetb, XB_bubble;
    // CSR read, write, set, clear; imm means operand is an immediate
    // or from register
