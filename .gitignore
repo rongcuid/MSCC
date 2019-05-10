@@ -33,5 +33,11 @@ hs_err_pid*
 
 .idea/libraries/
 .idea/modules/
+.idea/modules.xml
 .idea/workspace.xml
 .idea/usage.statistics.xml
+.idea/.name
+
+project/
+target/
+*-build/
