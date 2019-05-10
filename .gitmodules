@@ -1,4 +1,0 @@
-[submodule "riscv-compliance"]
-	path = riscv-compliance
-	url = https://github.com/rongcuid/riscv-compliance.git
-    branch = 5f4f97f
