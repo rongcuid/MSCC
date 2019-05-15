@@ -3,10 +3,12 @@
 A RISCV 32-bit softcore, started as a challenge, then went through 2018 RISC-V Contest sprint,
 and will be (hopefully) maintained forever.
 
-# Update (2019-04-16)
+# Update (2019-05-15)
 
-Today, I release the v0.1 version, which fully complies with the RV32I subset, v2.0 _and_ v2.1.
-Yes, that pesky `FENCE.I` included!
+Today, I release the v0.2 version.
+Now the GPIO is bidirectional with `DIR0` as direction selection. 
+In addition, the core has successfully printed Hello World using a bare metal C program over software UART on an Artix-7 FPGA.
+The code for that will be released later.
 
 This update, and subsequent updates carrying the v0.x tags, are intended for a reference core for another project.
 After the project finishes, the v0.x version will reach its end of life.
@@ -85,8 +87,6 @@ To run the riscv-compliance test, run:
 $ make
 ```
 
-**FENCE.I will fail! However, this is not a problem for RV32I v2.1 specification**
-
 Subarch tests are used to test incomplete CPU implementation. Each test
 depends only on instructions tested by previous tests.
 To run subarch test, run:
@@ -120,8 +120,9 @@ Instruction/Memory Address Misaligned Exception, ECALL, and EBREAK
 # I/O
 
 - Memory mapped on 0x80000000-0x800000FF
-- A GPIO is on 0x80000000, 8-bits wide. The same port is also used to communicate with
+- GPIO0: 0x80000000, 8-bits wide. The same port is also used to communicate with
   test bench
+- DIR0: 0x80000001, 8-bits wide. Direction selection
 - System timer `mtime` is on 0x80000010, `mtimecmp` is on 0x80000018. Both are 64-bit
 
 # Memory

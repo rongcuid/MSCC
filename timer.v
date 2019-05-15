@@ -18,8 +18,8 @@ module timer(
     output reg irq_mtimecmp
     );
 
-    reg [63:0] mtime;
-    reg [63:0] mtimecmp;
+    reg [63:0] mtime /*verilator public*/;
+    reg [63:0] mtimecmp/*verilator public*/;
 
     always @ (posedge clk) begin : TIMER_PIPELINE
       if (!resetb) begin
