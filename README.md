@@ -131,10 +131,6 @@ Instruction/Memory Address Misaligned Exception, ECALL, and EBREAK
 
 - IO on 0x80000000-0x800000FF
 
-Instruction memory is read only, thus _FENCE.I test always fails_.
-
-Data Memory can access the ROM. 
-
 # Compliance
 
 <del>Since instruction memory is read only, _FENCE.I_ test cannot pass. All other tests
