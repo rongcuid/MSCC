@@ -1,0 +1,95 @@
+= Mad Scientist Carl's Core 2
+
+== Goals
+
+A RISCV RV32IMCZisr softcore, more structured and better documented than version 1.
+The ABI will likely be different from version 1, and memory interface would be more flexible. 
+Will develop with verilator and Yosys. 
+Formal verification is probable.
+
+The end goal of MSCC is a Linux capable core, but earlier milestones will be bare-metal only.
+
+== Current Milestone
+
+.Legends
+* (labels) Milestone
+* Labels are:
+    - - -- Unstarted
+    - WIP -- Work in progress
+    - S -- Simulated
+    - V -- Verified
+    - D -- Deployed
+    - SVD -- Great!
+
+.Milestones
+* [ ] Project Setup
+    - [ ] Source tree structure
+    - [ ] (-) Blinker
+* [ ] RV32I Unprivileged
+    - [ ] (-) MMU (Physical) with GPIO0 Output
+    - [ ] (-) Instructions
+        - [ ] (-) AUIPC
+        - [ ] (-) LOAD/STORE
+        - [ ] (-) JALR
+        - [ ] (-) JAL
+        - [ ] (-) BRANCH
+        - [ ] (-) LUI
+        - [ ] (-) OPIMM
+        - [ ] (-) OP
+        - [ ] (-) NOPs
+        - [ ] (-) IllInst trap
+        - [ ] (-) ECALL/EBREAK
+        - [ ] (-) External interrupts
+        - [ ] (-) Memory mapped counters
+        - [ ] (-) Hazard Test
+        - [ ] (-) Application Test
+    - [ ] Toolchain support
+        - [ ] Assembly
+        - [ ] C bare metal
+* [ ] RV32IZicsr Machine Privilege
+    - [ ] Instructions
+        - [ ] (-) CSR Constants
+        - [ ] (-) CSR Essential
+        - [ ] (-) CSR Counters
+    - [ ] (-) Better trap handlers
+    - [ ] GPIO0
+        - [ ] (-) Input and direction
+        - [ ] (-) PCINT0
+* [ ] RV32IZicsr MP + PLIC
+    - [ ] (-) GPIO1
+    - [ ] (-) USART0
+* [ ] RV32IZicsr MP + PLIC + External RAM
+    - [ ] (-) MMU for DDR and cache
+* [ ] RV32IZicsr UP + PLIC + External RAM
+    - [ ] (-) User Privilege
+* [ ] RV32IZicsr UP + PLIC + External RAM + Virtual Address
+* [ ] RV32IZicsr SP + PLIC + External RAM
+* [ ] RV32ICZicsr SP + PLIC + Ext Ram
+     - [ ] Instructions
+        - [ ] (-) C.LSP
+        - [ ] (-) C.SSP
+        - [ ] (-) C.L
+        - [ ] (-) C.S
+        - [ ] (-) C.J
+        - [ ] (-) C.JR
+        - [ ] (-) C.B
+        - [ ] (-) C.LI
+        - [ ] (-) C.OPIMM
+        - [ ] (-) C.OP
+        - [ ] (-) C.ILL
+        - [ ] (-) C.NOP
+        - [ ] (-) C.EBREAK
+* [ ] RV32IMCZicsr SP + PLIC + Ext Ram
+    - [ ] Instructions
+        - [ ] (-) MULT
+        - [ ] (-) DIV
+
+== Microarchitecture Notes
+
+* This is meant to be part of an SoC
+* Optimized for fast memory access
+* Use busy-valid protocol whenever applicable
+* Pipeline any BRAM
+* Pipeline when possible: FF's are free in FPGA
+* Keep max clock high, even if it introduces more pipeline stalls
+* Modularize
