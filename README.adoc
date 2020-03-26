@@ -22,11 +22,11 @@ The end goal of MSCC is a Linux capable core, but earlier milestones will be bar
     - SVD -- Great!
 
 .Milestones
-* [ ] Project Setup
-    - [ ] Source tree structure
-    - [ ] (-) Blinker
+* [x] Project Setup
+    - [x] Source tree structure
+    - [x] (S) Blinker
 * [ ] RV32I Unprivileged
-    - [ ] (-) MMU (Physical) with GPIO0 Output
+    - [ ] (WIP) MMU (Physical) with GPIO0 Output
     - [ ] (-) Instructions
         - [ ] (-) AUIPC
         - [ ] (-) LOAD/STORE
@@ -106,3 +106,24 @@ The end goal of MSCC is a Linux capable core, but earlier milestones will be bar
 
 .Features
 * 5-stage
+
+== Naming Convention
+
+.General
+```
+input: i_*
+output: o_*
+input/output: io_*
+ready: *_r
+valid: *_v
+exception: *_x
+```
+
+.Memory
+```
+addr: *_a
+enable: *_en (may merge with valid interface)
+byte enable: *_ben
+write enable: *_wen
+data: *_d
+```
