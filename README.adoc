@@ -55,9 +55,11 @@ The end goal of MSCC is a Linux capable core, but earlier milestones will be bar
     - [ ] GPIO0
         - [ ] (-) Input and direction
         - [ ] (-) PCINT0
-* [ ] RV32IZicsr MP + PLIC
+* [ ] RV32IZicsr MP + Wishbone
+    - [ ] Bus
     - [ ] (-) GPIO1
     - [ ] (-) USART0
+* [ ] RV32IZicsr MP + PLIC
 * [ ] RV32IZicsr MP + PLIC + External RAM
     - [ ] (-) MMU for DDR and cache
 * [ ] RV32IZicsr UP + PLIC + External RAM
@@ -93,3 +95,14 @@ The end goal of MSCC is a Linux capable core, but earlier milestones will be bar
 * Pipeline when possible: FF's are free in FPGA
 * Keep max clock high, even if it introduces more pipeline stalls
 * Modularize
+
+== Pipeline structure
+
+.Basic structure
+----
+ IF |  ID  | EX  | MEM |  WB
+[|IM|] dec | alu [|DM  |]
+----
+
+.Features
+* 5-stage

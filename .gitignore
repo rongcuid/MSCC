@@ -5,4 +5,5 @@ board_top.asc
 ~*
 *.log
 tb_out/
-obj_dir/
+obj_dir*/
+.sconsign.dblite
