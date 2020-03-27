@@ -121,9 +121,12 @@ exception: *_x
 
 .Memory
 ```
-addr: *_a
+addr: *_addr
+instruction addr: *_iaddr
 enable: *_en (may merge with valid interface)
-byte enable: *_ben
-write enable: *_wen
-data: *_d
+read strobe: *_rstrb
+instruction read data: *_irdata
+read data: *_rdata
+write strobe: *_wstrb
+write data: *_wdata
 ```
