@@ -17,6 +17,7 @@
     "customizations": {
         "vscode": {
             "extensions": [
+                "asciidoctor.asciidoctor-vscode",
                 "ms-vscode.cpptools",
                 "openai.chatgpt",
                 "AdaCore.ada",

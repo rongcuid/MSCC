@@ -1,0 +1,3 @@
+= Emulator Level 0
+
+This emulator is pure software emulation.

@@ -1,0 +1,6 @@
+= MSCC Redux
+
+== Goal
+
+* [ ] A 64-bit machine with example peripherals.
+* [ ] Something that can look like a game console.
