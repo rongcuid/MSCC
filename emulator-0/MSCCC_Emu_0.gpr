@@ -1,0 +1,22 @@
+project MSCCC_Emu_0 is
+   for Languages    use ("Ada", "C");
+   for Source_Dirs use ("src/**", "top");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("main.c");
+
+   package Builder is  --<<<  for gprbuild
+   end Builder;
+
+   package Compiler is --<<<  for the compiler
+      C_Switches := ("-pedantic", "-Wall", "-ggdb");
+      for Default_Switches ("C")   use C_Switches;
+      for Default_Switches ("Ada") use ("-gnat2022");
+   end Compiler;
+
+   package Binder is   --<<<  for the binder
+   end Binder;
+
+   package Linker is   --<<<  for the linker
+   end Linker;
+end MSCCC_Emu_0;

@@ -2,5 +2,13 @@
 
 == Goal
 
-* [ ] A 64-bit machine with example peripherals.
 * [ ] Something that can look like a game console.
+* [ ] A 64-bit Machine-level RV multicore with example peripherals.
+* [ ] A RV32 spatial grid.
+* [ ] Compatibility test.
+* [ ] Formal verification.
+* [ ] A small GPU.
+* [ ] A small tensor unit.
+* [ ] Optionally, use MPI for some discrete event simulation.
+* [ ] HDL implementation.
+* [ ] FPGA synthesis.

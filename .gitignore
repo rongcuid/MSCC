@@ -6,3 +6,6 @@ board_top.asc
 *.log
 tb_out/
 obj_dir/
+
+bin/
+obj/
