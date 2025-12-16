@@ -1,0 +1,31 @@
+FROM registry.fedoraproject.org/fedora-toolbox:43
+
+LABEL org.opencontainers.image.authors="rongcuid@outlook.com"
+
+# Base developer image
+
+ARG USERNAME=developer
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+ARG VSC_SERVER_PATH="/home/${USERNAME}/.vscode-server"
+
+RUN groupadd --gid=$USER_GID $USERNAME \
+    && useradd --uid=$USER_UID --gid=$USER_GID -m $USERNAME 
+
+VOLUME ["/workspace", "${VSC_SERVER_PATH}"]
+WORKDIR /workspace
+
+RUN set -eux; \
+    mkdir -p "${VSC_SERVER_PATH}" && \
+    chown ${USERNAME}:${USERNAME} "${VSC_SERVER_PATH}"
+
+# Development dependencies
+
+RUN dnf install -y @development-tools @c-development \
+    fedora-gnat-project-common gprbuild gcc-gnat gnatcoll-*-devel \
+    mpich-devel mpich-autoload \
+    SDL3-devel SDL3_image-devel SDL3_sound-devel SDL3_ttf-devel \
+    VulkanMemoryAllocator-devel vulkan-headers vulkan-loader-devel vulkan-tools vulkan-utility-libraries-devel vulkan-validation-layers vulkan-volk-devel
+
+USER $USERNAME
+CMD ["/bin/bash"]

@@ -1,0 +1,28 @@
+{
+    "name": "MSCC:dev",
+    "build": {
+        "dockerfile": "../Containerfile.dev",
+        "context": ".."
+    },
+    "mounts": [
+        "type=bind,source=/run/user/${localEnv:UID},target=/run/user/${localEnv:UID}"
+    ],
+    "runArgs": [
+        "--device=/dev/kfd",
+        "--device=/dev/dri"
+    ],
+    "containerEnv": {
+        "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "openai.chatgpt",
+                "AdaCore.ada",
+                "BazelBuild.vscode-bazel",
+                "maelvalais.autoconf"
+            ]
+        }
+    }
+}
