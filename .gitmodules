@@ -1,0 +1,9 @@
+[submodule "compat/riscof"]
+	path = compat/riscof
+	url = git@github.com:riscv-software-src/riscof.git
+[submodule "compat/riscv-config"]
+	path = compat/riscv-config
+	url = git@github.com:riscv-software-src/riscv-config.git
+[submodule "compat/riscv-arch-test"]
+	path = compat/riscv-arch-test
+	url = git@github.com:riscv-non-isa/riscv-arch-test.git
