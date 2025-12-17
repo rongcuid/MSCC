@@ -5,6 +5,8 @@
 extern void adainit(void);
 extern void adafinal(void);
 
+extern void MSCC_Hello(void);
+
 /* We will use this renderer to draw into this window every frame. */
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
@@ -27,6 +29,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
         return SDL_APP_FAILURE;
     }
     SDL_SetRenderLogicalPresentation(renderer, 640, 480, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+
+    MSCC_Hello();
 
     return SDL_APP_CONTINUE; /* carry on with the program! */
 }
