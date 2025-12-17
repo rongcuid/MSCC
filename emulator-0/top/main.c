@@ -2,10 +2,10 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
+#include "mscc.h"
+
 extern void adainit(void);
 extern void adafinal(void);
-
-extern void MSCC_Hello(void);
 
 /* We will use this renderer to draw into this window every frame. */
 static SDL_Window *window = NULL;
