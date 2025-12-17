@@ -5,18 +5,19 @@ project MSCCC_Emu_0 is
    for Exec_Dir use "bin";
    for Main use ("main.c");
 
-   package Builder is  --<<<  for gprbuild
+   package Builder is
    end Builder;
 
-   package Compiler is --<<<  for the compiler
+   package Compiler is
       C_Switches := ("-pedantic", "-Wall", "-ggdb");
       for Default_Switches ("C")   use C_Switches;
       for Default_Switches ("Ada") use ("-gnat2022");
    end Compiler;
 
-   package Binder is   --<<<  for the binder
+   package Binder is
    end Binder;
 
-   package Linker is   --<<<  for the linker
+   package Linker is
+      for Default_Switches ("C") use ("-lSDL3");
    end Linker;
 end MSCCC_Emu_0;

@@ -12,3 +12,14 @@
 * [ ] Optionally, use MPI for some discrete event simulation.
 * [ ] HDL implementation.
 * [ ] FPGA synthesis.
+
+== Specification (Stage 0)
+
+=== ISA
+
+RISC-V RV64G_Zicntr_Zihpm
+
+=== Memory Mapping
+
+* Code start: 0x0000000080000000
+* Data start: 0x7FFFFFFF00000000
