@@ -9,3 +9,9 @@ obj_dir/
 
 bin/
 obj/
+
+# Object file
+*.o
+
+# Ada Library Information
+*.ali

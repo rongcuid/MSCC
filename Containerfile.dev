@@ -35,6 +35,7 @@ RUN cd /tmp && git clone https://github.com/riscv/riscv-gnu-toolchain
 
 RUN cd /tmp/riscv-gnu-toolchain && ./configure --prefix=/opt/riscv --enable-multilib && make -j`nproc`
 
+ENV PATH "/opt/riscv/bin:$PATH"
 
 USER $USERNAME
 CMD ["/bin/bash"]
