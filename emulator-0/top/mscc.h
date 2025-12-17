@@ -1,3 +1,3 @@
 #pragma once
 
-extern void MSCC_Hello(void);
+void MSCC_Hello(void);
