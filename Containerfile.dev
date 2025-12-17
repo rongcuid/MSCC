@@ -21,11 +21,20 @@ RUN set -eux; \
 
 # Development dependencies
 
-RUN dnf install -y @development-tools @c-development \
+RUN dnf install -y @development-tools @c-development autoconf automake python3 libmpc-devel mpfr-devel gmp-devel gawk  bison flex texinfo patchutils gcc gcc-c++ zlib-devel expat-devel libslirp-devel
+
+RUN dnf install -y \
     fedora-gnat-project-common gprbuild gcc-gnat gnatcoll-*-devel \
     mpich-devel mpich-autoload \
+    verilator-devel ghdl iverilog gtkwave yosys yosys-devel  \
     SDL3-devel SDL3_image-devel SDL3_sound-devel SDL3_ttf-devel \
     VulkanMemoryAllocator-devel vulkan-headers vulkan-loader-devel vulkan-tools vulkan-utility-libraries-devel vulkan-validation-layers vulkan-volk-devel
+
+# RISC-V toolchain
+RUN cd /tmp && git clone https://github.com/riscv/riscv-gnu-toolchain
+
+RUN cd /tmp/riscv-gnu-toolchain && ./configure --prefix=/opt/riscv --enable-multilib && make -j`nproc`
+
 
 USER $USERNAME
 CMD ["/bin/bash"]
