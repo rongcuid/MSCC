@@ -5,11 +5,14 @@ project MSCC_Emu_0 is
    for Exec_Dir use "bin";
    for Main use ("main.c");
 
+   CFLAGS := External_As_List("CFLAGS", " ");
+   LDFlAGS := External_As_List("LDFLAGS", " ");
+
    package Builder is
    end Builder;
 
    package Compiler is
-      C_Switches := ("-pedantic", "-Wall", "-ggdb");
+      C_Switches := CFLAGS & ("-pedantic", "-Wall", "-ggdb");
       for Default_Switches ("C")   use C_Switches;
       for Default_Switches ("Ada") use ("-gnat2022");
    end Compiler;
@@ -18,6 +21,6 @@ project MSCC_Emu_0 is
    end Binder;
 
    package Linker is
-      for Default_Switches ("C") use ("-lSDL3");
+      for Default_Switches ("C") use LDFLAGS & ("-lSDL3");
    end Linker;
 end MSCC_Emu_0;
