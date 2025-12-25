@@ -1,3 +1,4 @@
+with "SDL3.gpr";
 project MSCC_Emu_0 is
    for Languages    use ("Ada", "C");
    for Source_Dirs use ("src/**", "top");
@@ -21,6 +22,6 @@ project MSCC_Emu_0 is
    end Binder;
 
    package Linker is
-      for Default_Switches ("C") use LDFLAGS & ("-lSDL3");
+      for Leading_Switches ("C") use LDFLAGS;
    end Linker;
 end MSCC_Emu_0;
