@@ -13,7 +13,7 @@ project MSCC_Emu_0 is
    end Builder;
 
    package Compiler is
-      C_Switches := CFLAGS & ("-pedantic", "-Wall", "-ggdb");
+      C_Switches := CFLAGS & SDL3.SDL3_CFLAGS & ("-pedantic", "-Wall", "-ggdb");
       for Default_Switches ("C")   use C_Switches;
       for Default_Switches ("Ada") use ("-gnat2022");
    end Compiler;

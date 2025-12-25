@@ -1,7 +1,8 @@
 abstract project SDL3 is
-   SDL3_FLAGS := External_As_List ("SDL3_FLAGS", " ");
+   SDL3_CFLAGS := External_As_List ("SDL3_CFLAGS", " ");
+   SDL3_LDFLAGS := External_As_List ("SDL3_LDFLAGS", " ");
 
    package Linker is
-      for Linker_Options use SDL3_FLAGS & ("-lSDL3");
+      for Linker_Options use SDL3_LDFLAGS & ("-lSDL3");
    end Linker;
 end SDL3;
